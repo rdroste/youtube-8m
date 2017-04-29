@@ -3,17 +3,21 @@ import tensorflow as tf
 from subprocess import check_output
 check_output(["ls", "../input"]).decode("utf8")
 
-video_filename = '../input/video_level/video_level.tfrecord'
-video_level_writer = tf.python_io.TFRecordWriter(video_filename)
-
-frame_filename = '../input/frame_level/frame_level.tfrecord'
-frame_level_writer = tf.python_io.TFRecordWriter(frame_filename)
-
-nInput_Files = 10
 
 # Max label ID for the examples.
 nLabels = 50
-for i in range(nInput_Files):
+
+# The first and last file indices to take into account
+first_file_idx = 0
+last_file_idx = 10
+
+video_filename = '../input/video_level/video_level{}-{}.tfrecord'.format(first_file_idx,last_file_idx)
+video_level_writer = tf.python_io.TFRecordWriter(video_filename)
+
+frame_filename = '../input/frame_level/frame_level{}-{}.tfrecord'.format(first_file_idx,last_file_idx)
+frame_level_writer = tf.python_io.TFRecordWriter(frame_filename)
+
+for i in range(first_file_idx, last_file_idx):
     video_lvl_record = "../input/video_level/train-{}.tfrecord".format(i)
     frame_lvl_record = "../input/frame_level/train-{}.tfrecord".format(i)
 
